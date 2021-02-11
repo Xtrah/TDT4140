@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/container"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="?attr/actionBarSize">
@@ -31,5 +32,61 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/mobile_navigation"
     />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="400dp"
+        android:layout_marginLeft="400dp"
+        android:layout_marginBottom="400dp"
+        android:onClick="buttonClick"
+        android:text="Knapp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/nav_host_fragment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nav_host_fragment" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="400dp"
+        android:layout_marginRight="400dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Tekstboks"
+        app:layout_constraintBottom_toTopOf="@+id/nav_host_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/nav_host_fragment"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="700dp"
+        android:layout_marginEnd="400dp"
+        android:layout_marginRight="400dp"
+        android:onClick="onClick"
+        android:text="Next"
+        app:layout_constraintBottom_toTopOf="@+id/nav_host_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/nav_host_fragment"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="200dp"
+        android:layout_marginRight="200dp"
+        android:layout_marginBottom="1000dp"
+        android:text="Login"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/nav_host_fragment"
+        app:layout_constraintTop_toBottomOf="@+id/nav_host_fragment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
