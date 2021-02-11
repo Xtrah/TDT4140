@@ -6,4 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.EmptyActivity">
 
+    <EditText
+        android:id="@+id/editTextTextPersonName2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Type rett"
+        android:ems="10"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="56dp" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Tid"
+        android:ems="10"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="110dp" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Sted"
+        android:ems="10"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="165dp" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

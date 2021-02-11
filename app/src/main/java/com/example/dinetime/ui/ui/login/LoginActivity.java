@@ -1,6 +1,7 @@
 package com.example.dinetime.ui.ui.login;
 
 import android.app.Activity;
+import android.content.Intent;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.dinetime.MainActivity;
 import com.example.dinetime.R;
 import com.example.dinetime.ui.ui.login.LoginViewModel;
 import com.example.dinetime.ui.ui.login.LoginViewModelFactory;
@@ -37,6 +39,14 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+
+        // Button mainScreenButton = (Button) findViewById(R.id.login);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+           public void onClick(View view) {
+               Intent myIntent = new Intent(view.getContext(), MainActivity.class);
+               startActivityForResult(myIntent, 0);
+            }
+        });
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override

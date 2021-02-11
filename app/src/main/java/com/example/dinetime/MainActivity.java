@@ -22,46 +22,38 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        //BottomNavigationView navView = findViewById(R.id.nav_view);
+        setContentView(R.layout.activity_main);
+        BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        //AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-        //        R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-        //        .build();
-        //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        //NavigationUI.setupWithNavController(navView, navController);
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(navView, navController);
 
-        //Button next = (Button) findViewById(R.id.button2);
-        //next.setOnClickListener(new View.OnClickListener() {
-        //    public void onClick(View view) {
-        //        Intent myIntent = new Intent(view.getContext(), EmptyActivity.class);
-        //        startActivityForResult(myIntent, 0);
-        //    }
-        //});
-
-        //Button loginButton = (Button) findViewById(R.id.loginButton);
-        //loginButton.setOnClickListener(new View.OnClickListener() {
-        //    public void onClick(View view) {
-        //        Intent myIntent = new Intent(view.getContext(), LoginActivity.class);
-        //        startActivityForResult(myIntent, 0);
-        //    }
-        //});
-
-        Button mainScreenButton = (Button) findViewById(R.id.login);
-        mainScreenButton .setOnClickListener(new View.OnClickListener() {
+        Button next = (Button) findViewById(R.id.button2);
+        next.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), HomeFragment.class);
+                Intent myIntent = new Intent(view.getContext(), EmptyActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
+        Button loginButton = (Button) findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), LoginActivity.class);
                 startActivityForResult(myIntent, 0);
             }
         });
 
     }
 
-    //public void buttonClick(View v) {
-    //    EditText text = (EditText) findViewById (R.id.editTextTextPersonName);
-    //    text.setText("Welcome to android");
-    //}
+    public void buttonClick(View v) {
+        EditText text = (EditText) findViewById (R.id.editTextTextPersonName);
+        text.setText("Welcome to android");
+    }
 
 }
