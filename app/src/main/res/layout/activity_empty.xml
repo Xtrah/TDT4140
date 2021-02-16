@@ -41,7 +41,7 @@
             android:inputType="textPersonName"
             android:layout_marginEnd="96dp"
             android:layout_marginRight="96dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="136dp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="100dp"
     />
     <EditText
             android:id="@+id/editTextDate"
@@ -94,8 +94,8 @@
             android:padding="15dp" android:textColor="#FFFFFF"
             app:layout_constraintTop_toBottomOf="@+id/editTextGuests"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.647" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.865"/>
+            app:layout_constraintVertical_bias="0.588" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.498"/>
     <Switch
             android:text="Vegetar  "
             android:layout_width="wrap_content"
@@ -107,28 +107,22 @@
             app:layout_constraintTop_toBottomOf="@+id/editTextGuests" android:layout_marginBottom="60dp"
             app:layout_constraintBottom_toTopOf="@+id/publishDinnerButton" app:layout_constraintHorizontal_bias="0.47"
             app:layout_constraintVertical_bias="0.189"/>
-    <TextView
-            android:text="DineTime"
-            android:layout_width="411dp"
-            android:layout_height="74dp" android:id="@+id/textViewDineTime"
-            android:gravity="center"
-            android:background="#EE1C8722" android:textColor="#FFFFFF"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
     <ImageButton
-            android:layout_width="78dp"
-            android:layout_height="74dp" app:srcCompat="@drawable/abc_vector_test"
-            android:id="@+id/backButton" android:background="#001C8722"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"/>
+            android:layout_width="51dp"
+            android:layout_height="51dp" app:srcCompat="@drawable/abc_vector_test"
+            android:id="@+id/backButton" android:background="@drawable/rounded_corners"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="24dp" android:layout_marginTop="24dp" android:layout_marginStart="24dp"/>
     <Switch
             android:text="Dele utgifter"
             android:layout_width="wrap_content"
             android:layout_height="27dp" android:id="@+id/switchSplitExpenses"
             android:textOn="Dele utgifter" android:textOff="Ikke dele utgifter"
             android:textColor="#EE1C8722" android:textStyle="bold"
-            tools:layout_editor_absoluteX="146dp" app:layout_constraintTop_toBottomOf="@+id/switchVegetarian"
-            app:layout_constraintBottom_toTopOf="@+id/nav_view" app:layout_constraintVertical_bias="0.115"/>
+            app:layout_constraintTop_toBottomOf="@+id/switchVegetarian"
+            app:layout_constraintBottom_toTopOf="@+id/nav_view" app:layout_constraintVertical_bias="0.113"
+            app:layout_constraintStart_toStartOf="@+id/editTextGuests"
+            app:layout_constraintEnd_toEndOf="@+id/editTextGuests" app:layout_constraintHorizontal_bias="0.463"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,24 @@
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
+    <Button
+            android:id="@+id/loginButton"
+            android:layout_width="88dp"
+            android:layout_height="48dp"
+            android:text="Login"
+            app:layout_constraintBottom_toBottomOf="@+id/button"
+            app:layout_constraintVertical_bias="0.0"
+            android:background="@drawable/rounded_corners" android:textColor="#FFFFFF"
+            app:layout_constraintStart_toStartOf="@+id/nav_host_fragment" android:layout_marginLeft="40dp"
+            android:layout_marginStart="40dp" app:layout_constraintTop_toTopOf="@+id/nav_host_fragment"/>
+    <FrameLayout
+            android:layout_width="364dp"
+            android:layout_height="127dp"
+            android:background="#DDDDDDDD" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+            android:layout_marginTop="24dp" app:layout_constraintHorizontal_bias="0.51" android:id="@+id/frameLayout4">
+
+    </FrameLayout>
     <fragment
             android:id="@+id/nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
@@ -31,48 +49,59 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
-            app:navGraph="@navigation/mobile_navigation"/>
+            app:navGraph="@navigation/mobile_navigation" android:background="#DDDDDDDD"/>
     <Button
             android:id="@+id/button"
             android:layout_width="88dp"
             android:layout_height="48dp"
             android:onClick="buttonClick"
             android:text="Knapp"
-            android:layout_marginLeft="160dp" android:layout_marginStart="160dp"
-            app:layout_constraintStart_toStartOf="@+id/nav_host_fragment" android:layout_marginTop="268dp"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"/>
+            android:layout_marginLeft="52dp" android:layout_marginStart="52dp"
+            app:layout_constraintStart_toStartOf="@+id/nav_host_fragment"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/rounded_corners"
+            app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName"/>
     <EditText
             android:id="@+id/editTextTextPersonName"
-            android:layout_width="581dp"
-            android:layout_height="67dp"
+            android:layout_width="203dp"
+            android:layout_height="45dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Tekstboks"
-            android:layout_marginBottom="56dp"
-            app:layout_constraintBottom_toTopOf="@+id/button"
-            app:layout_constraintTop_toTopOf="@+id/nav_host_fragment"
-            app:layout_constraintStart_toEndOf="@+id/nav_host_fragment" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.136" android:layout_marginRight="600dp"
-            android:layout_marginEnd="600dp"/>
+            app:layout_constraintBottom_toTopOf="@+id/nav_view"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.783"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintVertical_bias="0.928"/>
     <Button
-            android:id="@+id/button2"
-            android:layout_width="88dp"
+            android:id="@+id/addDinnerButton"
+            android:layout_width="162dp"
             android:layout_height="48dp"
             android:onClick="onClick"
-            android:text="Next"
-            android:layout_marginEnd="160dp"
-            android:layout_marginRight="160dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="151dp" app:layout_constraintTop_toBottomOf="@+id/nav_host_fragment"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="600dp"
-            app:layout_constraintVertical_bias="0.408"
-    />
-    <Button
-            android:id="@+id/loginButton"
-            android:layout_width="88dp"
-            android:layout_height="48dp"
-            android:text="Login"
-            app:layout_constraintStart_toEndOf="@+id/button2" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="144dp" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="483dp" app:layout_constraintVertical_bias="0.982"/>
+            android:text="Opprett middag"
+            android:layout_marginEnd="28dp"
+            android:layout_marginRight="28dp" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            android:background="@drawable/rounded_corners" android:textColor="#FFFFFF"
+            app:layout_constraintTop_toTopOf="@+id/nav_host_fragment"/>
+    <FrameLayout
+            android:layout_width="363dp"
+            android:layout_height="124dp"
+            android:background="#DDDDDDDD" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/frameLayout4"
+            android:layout_marginTop="20dp" app:layout_constraintHorizontal_bias="0.52">
+
+    </FrameLayout>
+    <FrameLayout
+            android:layout_width="364dp"
+            android:layout_height="127dp"
+            android:background="#DDDDDDDD" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" android:id="@+id/frameLayout"
+            app:layout_constraintTop_toTopOf="@+id/nav_host_fragment"
+            app:layout_constraintBottom_toBottomOf="@+id/nav_view" app:layout_constraintHorizontal_bias="0.489"
+            app:layout_constraintVertical_bias="0.144">
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
