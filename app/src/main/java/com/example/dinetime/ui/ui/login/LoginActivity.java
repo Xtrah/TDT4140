@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.dinetime.MainActivity;
 import com.example.dinetime.R;
+import com.example.dinetime.ui.home.UserActivity;
 import com.example.dinetime.ui.ui.login.LoginViewModel;
 import com.example.dinetime.ui.ui.login.LoginViewModelFactory;
 
@@ -45,6 +46,14 @@ public class LoginActivity extends AppCompatActivity {
            public void onClick(View view) {
                Intent myIntent = new Intent(view.getContext(), MainActivity.class);
                startActivityForResult(myIntent, 0);
+            }
+        });
+
+        Button register = (Button) findViewById(R.id.register);
+        register.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), UserActivity.class);
+                startActivityForResult(myIntent, 0);
             }
         });
 

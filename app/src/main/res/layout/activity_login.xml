@@ -11,6 +11,23 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".ui.ui.login.LoginActivity">
 
+    <Button
+            android:id="@+id/register"
+            android:layout_width="185dp"
+            android:layout_height="54dp"
+            android:layout_gravity="start"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginBottom="64dp"
+            android:enabled="true"
+            android:text="Registrer bruker"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/password"
+            app:layout_constraintVertical_bias="0.263" android:background="@drawable/rounded_corners"
+            android:textColor="#FFFFFF"/>
     <EditText
         android:id="@+id/username"
         android:layout_width="0dp"
@@ -51,14 +68,13 @@
             android:layout_marginEnd="48dp"
             android:layout_marginBottom="64dp"
             android:enabled="true"
-            android:text="@string/action_sign_in"
+            android:text="Logg inn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password"
-            app:layout_constraintVertical_bias="0.2" android:background="@drawable/rounded_corners"
+            app:layout_constraintVertical_bias="0.038" android:background="@drawable/rounded_corners"
             android:textColor="#FFFFFF"/>
-
     <ProgressBar
         android:id="@+id/loading"
         android:layout_width="wrap_content"
