@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.example.dinetime.ui.home.EmptyActivity;
+import com.example.dinetime.ui.notifications.NotificationsFragment;
 import com.example.dinetime.ui.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,11 +47,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
     }
 
-    public void buttonClick(View v) {
-        EditText text = (EditText) findViewById (R.id.editTextTextPersonName);
-        text.setText("Welcome to android");
-    }
+
+
 
 }

@@ -1,8 +1,13 @@
 package com.example.dinetime.ui.home;
+import android.content.Intent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import com.example.dinetime.MainActivity;
 import com.example.dinetime.R;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,5 +29,23 @@ public class EmptyActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        final ImageButton back = (ImageButton) findViewById(R.id.backButton);
+        back.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), MainActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
+        final Button publish = (Button) findViewById(R.id.publishDinnerButton);
+        publish.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), MainActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
+
     }
 }

@@ -50,29 +50,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
             app:navGraph="@navigation/mobile_navigation" android:background="#DDDDDDDD"/>
-    <Button
-            android:id="@+id/button"
-            android:layout_width="88dp"
-            android:layout_height="48dp"
-            android:onClick="buttonClick"
-            android:text="Knapp"
-            android:layout_marginLeft="52dp" android:layout_marginStart="52dp"
-            app:layout_constraintStart_toStartOf="@+id/nav_host_fragment"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/rounded_corners"
-            app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName"/>
-    <EditText
-            android:id="@+id/editTextTextPersonName"
-            android:layout_width="203dp"
-            android:layout_height="45dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Tekstboks"
-            app:layout_constraintBottom_toTopOf="@+id/nav_view"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.783"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintVertical_bias="0.928"/>
+
     <Button
             android:id="@+id/addDinnerButton"
             android:layout_width="162dp"
