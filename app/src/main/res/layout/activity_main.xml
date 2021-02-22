@@ -24,11 +24,13 @@
             android:layout_width="88dp"
             android:layout_height="48dp"
             android:text="Login"
-            app:layout_constraintBottom_toBottomOf="@+id/button"
+            app:layout_constraintBottom_toBottomOf="@id/nav_view"
             app:layout_constraintVertical_bias="0.0"
             android:background="@drawable/rounded_corners" android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="@+id/nav_host_fragment" android:layout_marginLeft="40dp"
-            android:layout_marginStart="40dp" app:layout_constraintTop_toTopOf="@+id/nav_host_fragment"/>
+            android:layout_marginStart="40dp" app:layout_constraintTop_toTopOf="@+id/nav_host_fragment"
+            app:layout_constraintEnd_toStartOf="@+id/profileImage" app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="8dp"/>
     <FrameLayout
             android:layout_width="364dp"
             android:layout_height="127dp"
@@ -57,10 +59,10 @@
             android:layout_height="48dp"
             android:onClick="onClick"
             android:text="Opprett middag"
-            android:layout_marginEnd="28dp"
-            android:layout_marginRight="28dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintVertical_bias="0.853"
             android:background="@drawable/rounded_corners" android:textColor="#FFFFFF"
             app:layout_constraintTop_toTopOf="@+id/nav_host_fragment"/>
     <FrameLayout
@@ -81,5 +83,21 @@
             app:layout_constraintVertical_bias="0.144">
 
     </FrameLayout>
+    <TextView
+            android:text="Kari Nordmann"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/profileName"
+            android:textSize="12sp"
+            app:layout_constraintTop_toTopOf="@+id/profileImage"
+            app:layout_constraintBottom_toTopOf="@+id/frameLayout" app:layout_constraintVertical_bias="0.158"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="30dp"
+            android:layout_marginEnd="30dp"/>
+    <ImageView
+            android:layout_width="45dp"
+            android:layout_height="37dp" tools:srcCompat="@tools:sample/avatars" android:id="@+id/profileImage"
+            app:layout_constraintTop_toTopOf="@+id/nav_host_fragment"
+            app:layout_constraintBottom_toTopOf="@+id/frameLayout"
+            app:layout_constraintEnd_toStartOf="@+id/profileName"
+            app:layout_constraintVertical_bias="0.0"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,9 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import com.example.dinetime.ui.home.EmptyActivity;
-import com.example.dinetime.ui.notifications.NotificationsFragment;
+import com.example.dinetime.ui.home.ProfileActivity;
 import com.example.dinetime.ui.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,6 +42,14 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), LoginActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
+        Button profileImage = (Button) findViewById(R.id.profileImage);
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), ProfileActivity.class);
                 startActivityForResult(myIntent, 0);
             }
         });
