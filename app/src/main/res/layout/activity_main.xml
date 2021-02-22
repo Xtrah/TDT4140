@@ -83,20 +83,22 @@
 
     </FrameLayout>
     <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="43dp" app:srcCompat="@android:drawable/ic_menu_myplaces"
+            android:layout_width="54dp"
+            android:layout_height="47dp" app:srcCompat="@android:drawable/ic_menu_myplaces"
             android:id="@+id/profileButton"
             android:background="@drawable/rounded_corners" app:layout_constraintTop_toTopOf="@+id/nav_host_fragment"
             app:layout_constraintBottom_toTopOf="@+id/frameLayout"
-            app:layout_constraintStart_toEndOf="@+id/loginButton" android:layout_marginLeft="120dp"
-            android:layout_marginStart="120dp" app:layout_constraintVertical_bias="0.361"/>
+            app:layout_constraintStart_toEndOf="@+id/loginButton" android:layout_marginLeft="196dp"
+            android:layout_marginStart="196dp" app:layout_constraintVertical_bias="0.333"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="24dp"
+            android:layout_marginEnd="24dp"/>
     <TextView
             android:text="Kari Nordmann"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/ProfileText"
-            android:textSize="12sp" app:layout_constraintStart_toEndOf="@+id/profileButton"
-            app:layout_constraintTop_toTopOf="@+id/nav_host_fragment" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="28dp" android:layout_marginLeft="4dp" android:layout_marginStart="4dp"
-            app:layout_constraintHorizontal_bias="0.0"/>
+            android:textSize="12sp" app:layout_constraintStart_toEndOf="@+id/loginButton"
+            app:layout_constraintTop_toTopOf="@+id/nav_host_fragment"
+            android:layout_marginTop="28dp"
+            app:layout_constraintHorizontal_bias="0.914" app:layout_constraintEnd_toStartOf="@+id/profileButton"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
