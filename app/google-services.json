@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "805636387345",
+    "firebase_url": "https://dinetime-d2bee-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "dinetime-d2bee",
+    "storage_bucket": "dinetime-d2bee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:805636387345:android:08080af4905a0ee28437b0",
+        "android_client_info": {
+          "package_name": "com.dinetime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "805636387345-pd19k0b9c533phkob8qp5i3k267mrd4l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjX3elOkUneJYFv5wdWDJpr_tBMj9oQUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "805636387345-pd19k0b9c533phkob8qp5i3k267mrd4l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:805636387345:android:1465c02e872606a38437b0",
+        "android_client_info": {
+          "package_name": "com.example.dinetime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "805636387345-pd19k0b9c533phkob8qp5i3k267mrd4l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjX3elOkUneJYFv5wdWDJpr_tBMj9oQUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "805636387345-pd19k0b9c533phkob8qp5i3k267mrd4l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
