@@ -17,7 +17,7 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-        final Button create = (Button) findViewById(R.id.createProfileButton);
+        final Button create = findViewById(R.id.createProfileButton);
         create.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), MainActivity.class);
@@ -25,7 +25,7 @@ public class UserActivity extends AppCompatActivity {
             }
         });
 
-        final ImageButton back = (ImageButton) findViewById(R.id.backButtonSignUp);
+        final ImageButton back = findViewById(R.id.backButtonSignUp);
         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), LoginActivity.class);

@@ -2,7 +2,6 @@ package com.example.dinetime.ui.home;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +15,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        final ImageButton back = (ImageButton) findViewById(R.id.backButtonProfile);
+        final ImageButton back = findViewById(R.id.backButtonProfile);
         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), MainActivity.class);

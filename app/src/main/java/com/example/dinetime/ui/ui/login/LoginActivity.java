@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Button register = (Button) findViewById(R.id.register);
+        Button register = findViewById(R.id.register);
         register.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), UserActivity.class);
