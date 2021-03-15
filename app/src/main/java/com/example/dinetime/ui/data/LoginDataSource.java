@@ -1,6 +1,7 @@
 package com.example.dinetime.ui.data;
 
 import com.example.dinetime.ui.data.model.LoggedInUser;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
 
@@ -24,6 +25,6 @@ public class LoginDataSource {
     }
 
     public void logout() {
-        // TODO: revoke authentication
+        FirebaseAuth.getInstance().signOut();
     }
 }
