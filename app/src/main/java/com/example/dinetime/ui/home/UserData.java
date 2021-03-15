@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public class UserData {
 
     public String firstName, lastName, address;
-    //public ArrayList<String> allergies;
+    public ArrayList<String> allergies;
 
-    public UserData(String firstName, String lastName, String address) {
+    public UserData(String firstName, String lastName, String address, ArrayList<String> allergies) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
-        //this.allergies = allergies;
+        this.allergies = allergies;
     }
 
 }

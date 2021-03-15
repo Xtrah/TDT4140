@@ -49,11 +49,17 @@ public class MainActivity extends AppCompatActivity {
         if (user != null) {
           // User is signed in
           loginButton.setText("Logg ut");
+          profileButton.setVisibility(View.VISIBLE);
+          profileText.setVisibility(View.VISIBLE);
+          addDinner.setVisibility(View.VISIBLE);
           profileText.setText(user.getEmail());
           System.out.println("Logged in");
         } else {
           // No user is signed in
           loginButton.setText("Logg inn");
+          profileButton.setVisibility(View.INVISIBLE);
+          profileText.setVisibility(View.INVISIBLE);
+          addDinner.setVisibility(View.INVISIBLE);
           System.out.println("No user is signed in");
         }
       } catch (NullPointerException e) {

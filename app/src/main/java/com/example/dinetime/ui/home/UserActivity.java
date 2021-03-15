@@ -3,10 +3,7 @@ package com.example.dinetime.ui.home;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +27,7 @@ public class UserActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
 
     private String firstName, lastName, address;
+    private ArrayList<String> allergies = new ArrayList<>();
 
     private static final String TAG = "UserActivity";
     private static final int RC_SIGN_IN = 9001;
@@ -49,6 +47,15 @@ public class UserActivity extends AppCompatActivity {
         final EditText lastNameEditText = findViewById(R.id.userLastName);
         final EditText addressEditText = findViewById(R.id.userAddress);
 
+        final CheckBox gluten = findViewById(R.id.checkBoxGluten);
+        final CheckBox nuts = findViewById(R.id.checkBoxNuts);
+        final CheckBox milk = findViewById(R.id.checkBoxMilk);
+        final CheckBox egg = findViewById(R.id.checkBoxEgg);
+        final CheckBox soya = findViewById(R.id.checkBoxSoya);
+        final CheckBox shellfish = findViewById(R.id.checkBoxShellfish);
+        final CheckBox other = findViewById(R.id.checkBoxOther);
+        final EditText otherAllergy = findViewById(R.id.editTextAllergies);
+
         final Button create = findViewById(R.id.createProfileButton);
         final ImageButton back = findViewById(R.id.backButtonSignUp);
 
@@ -64,13 +71,27 @@ public class UserActivity extends AppCompatActivity {
                 lastName = lastNameEditText.getText().toString();
                 address = addressEditText.getText().toString();
 
+                addAllergy(gluten);
+                addAllergy(nuts);
+                addAllergy(milk);
+                addAllergy(egg);
+                addAllergy(soya);
+                addAllergy(shellfish);
+                if (other.isChecked()) {
+                    allergies.add(otherAllergy.getText().toString());
+                }
+                if (allergies.isEmpty()) {
+                    allergies.add("Ingen");
+                }
+
+
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(UserActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
-                                    UserData data = new UserData(firstName, lastName, address);
+                                    UserData data = new UserData(firstName, lastName, address, allergies);
 
                                     FirebaseDatabase.getInstance().getReference("UserData")
                                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(data).
@@ -113,6 +134,12 @@ public class UserActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
             // TODO
+        }
+    }
+
+    private void addAllergy(CheckBox checkBox) {
+        if (checkBox.isChecked()) {
+            allergies.add(checkBox.getText().toString());
         }
     }
 
