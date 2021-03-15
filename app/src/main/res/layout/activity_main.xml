@@ -23,7 +23,7 @@
             android:id="@+id/loginButton"
             android:layout_width="88dp"
             android:layout_height="48dp"
-            android:text="Login"
+            android:text="Logg inn"
             app:layout_constraintBottom_toBottomOf="@id/nav_view"
             app:layout_constraintVertical_bias="0.0"
             android:background="@drawable/rounded_corners" android:textColor="#FFFFFF"
@@ -94,11 +94,12 @@
             android:layout_marginEnd="24dp"/>
     <TextView
             android:text="Kari Nordmann"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/ProfileText"
+            android:layout_width="162dp"
+            android:layout_height="17dp" android:id="@+id/profileText"
             android:textSize="12sp" app:layout_constraintStart_toEndOf="@+id/loginButton"
             app:layout_constraintTop_toTopOf="@+id/nav_host_fragment"
             android:layout_marginTop="28dp"
-            app:layout_constraintHorizontal_bias="0.914" app:layout_constraintEnd_toStartOf="@+id/profileButton"/>
+            app:layout_constraintHorizontal_bias="0.914" app:layout_constraintEnd_toStartOf="@+id/profileButton"
+            android:gravity="right"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
