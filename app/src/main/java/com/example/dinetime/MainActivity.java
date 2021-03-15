@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -39,23 +40,43 @@ public class MainActivity extends AppCompatActivity {
       NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
       NavigationUI.setupWithNavController(navView, navController);
 
-      Button next = findViewById(R.id.addDinnerButton);
-      next.setOnClickListener(new View.OnClickListener() {
+      Button loginButton = findViewById(R.id.loginButton);
+      Button addDinner = findViewById(R.id.addDinnerButton);
+      ImageButton profileButton = findViewById(R.id.profileButton);
+      TextView profileText = findViewById(R.id.profileText);
+
+      try {
+        if (user != null) {
+          // User is signed in
+          loginButton.setText("Logg ut");
+          profileText.setText(user.getEmail());
+          System.out.println("Logged in");
+        } else {
+          // No user is signed in
+          loginButton.setText("Logg inn");
+          System.out.println("No user is signed in");
+        }
+      } catch (NullPointerException e) {
+        System.out.println("yepp");
+      }
+
+      loginButton.setOnClickListener(new View.OnClickListener() {
+        public void onClick(View view) {
+          if (user != null) {
+            FirebaseAuth.getInstance().signOut();
+          }
+          Intent myIntent = new Intent(view.getContext(), LoginActivity.class);
+          startActivityForResult(myIntent, 0);
+        }
+      });
+
+      addDinner.setOnClickListener(new View.OnClickListener() {
         public void onClick(View view) {
           Intent myIntent = new Intent(view.getContext(), EmptyActivity.class);
           startActivityForResult(myIntent, 0);
         }
       });
 
-      Button loginButton = findViewById(R.id.loginButton);
-      loginButton.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View view) {
-          Intent myIntent = new Intent(view.getContext(), LoginActivity.class);
-          startActivityForResult(myIntent, 0);
-        }
-      });
-
-      ImageButton profileButton = findViewById(R.id.profileButton);
       profileButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View view) {
           Intent myIntent = new Intent(view.getContext(), ProfileActivity.class);
@@ -63,17 +84,6 @@ public class MainActivity extends AppCompatActivity {
         }
       });
 
-      try {
-        if (user != null) {
-          // User is signed in
-          System.out.println("Logged in");
-        } else {
-          // No user is signed in
-          System.out.println("No user is signed in");
-        }
-      } catch (NullPointerException e) {
-        System.out.println("yepp");
-      }
     }
 
 }
