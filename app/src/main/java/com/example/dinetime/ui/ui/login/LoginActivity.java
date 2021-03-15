@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,16 +31,22 @@ public class LoginActivity extends AppCompatActivity {
     final EditText usernameEditText = findViewById(R.id.username);
     final EditText passwordEditText = findViewById(R.id.password);
     final Button loginButton = findViewById(R.id.login);
-    final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
-    // Button mainScreenButton = (Button) findViewById(R.id.login);
     loginButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View view) {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         signIn(username, password);
-        Intent myIntent = new Intent(view.getContext(), MainActivity.class);
-        startActivityForResult(myIntent, 0);
+        FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
+        try{
+          if (currentUser != null) {
+            Intent myIntent = new Intent(view.getContext(), MainActivity.class);
+            startActivityForResult(myIntent, 0);
+          }
+        } catch (NullPointerException e) {
+          // TODO
+        }
+
       }
     });
 
@@ -53,9 +58,7 @@ public class LoginActivity extends AppCompatActivity {
       }
     });
     mAuth = FirebaseAuth.getInstance();
-  }
-
-  ;
+  };
 
 
   @Override
@@ -86,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
               Toast.makeText(LoginActivity.this, "Authentication failed.",
                   Toast.LENGTH_SHORT).show();
               updateUI(null);
+              FirebaseAuth.getInstance().signOut();
             }
           }
         });
