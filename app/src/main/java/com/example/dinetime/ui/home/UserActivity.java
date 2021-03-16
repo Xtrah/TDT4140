@@ -89,7 +89,7 @@ public class UserActivity extends AppCompatActivity {
                         .addOnCompleteListener(UserActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
+                                if (task.isSuccessful() && firstName != null && lastName != null && address != null) {
                                     // Sign in success, update UI with the signed-in user's information
                                     UserData data = new UserData(firstName, lastName, address, allergies);
 

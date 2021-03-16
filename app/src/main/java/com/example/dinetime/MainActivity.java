@@ -15,6 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.dinetime.ui.home.EmptyActivity;
 import com.example.dinetime.ui.home.ProfileActivity;
+import com.example.dinetime.ui.home.UserActivity;
 import com.example.dinetime.ui.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
           System.out.println("Logged in");
         } else {
           // No user is signed in
+          Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+          startActivity(intent);
           loginButton.setText("Logg inn");
           profileButton.setVisibility(View.INVISIBLE);
           profileText.setVisibility(View.INVISIBLE);
