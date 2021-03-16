@@ -36,9 +36,14 @@ public class LoginActivity extends AppCompatActivity {
       public void onClick(View view) {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-        signIn(username, password);
+        if (username == null || password == null) {
+          Toast.makeText(LoginActivity.this, "Authentication failed.",
+                  Toast.LENGTH_SHORT).show();
+        } else {
+          signIn(username, password);
+        }
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
-        try{
+        try {
           if (currentUser != null) {
             Intent myIntent = new Intent(view.getContext(), MainActivity.class);
             startActivityForResult(myIntent, 0);
