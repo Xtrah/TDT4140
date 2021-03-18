@@ -23,16 +23,26 @@ public class ProfileActivity extends AppCompatActivity {
     private String userID = user.getUid();
     private static final String TAG = "ProfileActivity";
 
-    final ImageButton back = findViewById(R.id.backButtonProfile);
-    final TextView profileEmail = findViewById(R.id.profileEmail);
-    final TextView profileName = findViewById(R.id.profileName);
-    final TextView profileAddress = findViewById(R.id.profileAddress);
-    final TextView profileAllergies = findViewById(R.id.profileAllergies);
+    public ImageButton back;
+    public TextView profileEmail;
+    public TextView profileName;
+    public TextView profileAddress;
+    public TextView profileAllergies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        mAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = firebaseDatabase.getReference("UserData");
+
+        back = findViewById(R.id.backButtonProfile);
+        profileEmail = findViewById(R.id.profileEmail);
+        profileName = findViewById(R.id.profileName);
+        profileAddress = findViewById(R.id.profileAddress);
+        profileAllergies = findViewById(R.id.profileAllergies);
 
         try {
             if (user != null) {
@@ -43,11 +53,11 @@ public class ProfileActivity extends AppCompatActivity {
                 // No user is signed in
                 System.out.println("No user is signed in");
             }
-        } catch (NullPointerException e) {
-            System.out.println("yepp");
+        } catch (IllegalArgumentException e) {
+            System.out.println("NullPointerException");
         }
 
-        back.setOnClickListener(new View.OnClickListener() {
+         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), MainActivity.class);
                 startActivityForResult(myIntent, 0);
@@ -57,7 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
-        myRef.child("UserData").addValueEventListener(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // This method is called once with the initial value and again
