@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class UserActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private DatabaseReference databaseReference;
+    private DatabaseReference myRef;
     private FirebaseDatabase firebaseDatabase;
 
     private String firstName, lastName, address;
@@ -39,7 +39,7 @@ public class UserActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("UserData");
+        myRef = firebaseDatabase.getReference("UserData");
 
         final EditText emailEditText = findViewById(R.id.userEmail);
         final EditText passwordEditText = findViewById(R.id.userPassword);
