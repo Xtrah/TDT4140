@@ -1,15 +1,11 @@
 package com.example.dinetime.ui.home;
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import androidx.annotation.RequiresApi;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,7 +16,6 @@ import com.example.dinetime.R;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Switch;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -54,12 +49,12 @@ public class EmptyActivity extends AppCompatActivity {
         final EditText klokkeEd = findViewById(R.id.editTextTime);
         final EditText stedEd = findViewById(R.id.editTextPlace);
         final EditText gjesterEd = findViewById(R.id.editTextGuests);
-        final Switch deleEd = (Switch) findViewById(R.id.switchSplitExpenses);
-        final Switch vegetarEd = (Switch) findViewById(R.id.switchVegetarian);
+        final Switch deleEd = findViewById(R.id.switchSplitExpenses);
+        final Switch vegetarEd = findViewById(R.id.switchVegetarian);
 
         Log.w(TAG, "Opening dinner form");
 
-        final ImageButton back = (ImageButton) findViewById(R.id.backButton);
+        final ImageButton back = findViewById(R.id.backButton);
         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), MainActivity.class);
@@ -67,7 +62,7 @@ public class EmptyActivity extends AppCompatActivity {
             }
         });
 
-        final Button publish = (Button) findViewById(R.id.publishDinnerButton);
+        final Button publish = findViewById(R.id.publishDinnerButton);
         publish.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
