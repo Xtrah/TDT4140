@@ -61,13 +61,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         edit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if (edit.getVisibility() == View.VISIBLE) {
-                    profileAddress.setVisibility(View.GONE);
-                    edit.setVisibility(View.GONE);
-                } else {
-                    profileAddress.setVisibility(View.VISIBLE);
-                    edit.setVisibility(View.VISIBLE);
-                }
             }
         });
 
