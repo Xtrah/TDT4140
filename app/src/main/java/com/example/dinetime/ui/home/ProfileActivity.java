@@ -23,6 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String userID = user.getUid();
     private static final String TAG = "ProfileActivity";
 
+    public ImageButton edit;
     public ImageButton back;
     public TextView profileEmail;
     public TextView profileName;
@@ -38,6 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         myRef = firebaseDatabase.getReference("UserData");
 
+        edit = findViewById(R.id.editButton);
         back = findViewById(R.id.backButtonProfile);
         profileEmail = findViewById(R.id.profileEmail);
         profileName = findViewById(R.id.profileName);
@@ -57,7 +59,19 @@ public class ProfileActivity extends AppCompatActivity {
             System.out.println("NullPointerException");
         }
 
-         back.setOnClickListener(new View.OnClickListener() {
+        edit.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                if (edit.getVisibility() == View.VISIBLE) {
+                    profileAddress.setVisibility(View.GONE);
+                    edit.setVisibility(View.GONE);
+                } else {
+                    profileAddress.setVisibility(View.VISIBLE);
+                    edit.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), MainActivity.class);
                 startActivityForResult(myIntent, 0);
@@ -75,17 +89,17 @@ public class ProfileActivity extends AppCompatActivity {
                 String nameString = snapshot.child(userID).child("firstName").getValue(String.class)
                         + " " + snapshot.child(userID).child("lastName").getValue(String.class);
                 String addressString = snapshot.child(userID).child("address").getValue(String.class);
-                String allergyString = "";
+                String allergyString = "Allergier: ";
 
                 profileName.setText(nameString);
                 profileAddress.setText(addressString);
                 profileEmail.setText(user.getEmail());
 
-                for (DataSnapshot ds : snapshot.child("allergies").getChildren()) {
-                    if (!allergyString.isEmpty()) {
-                        allergyString += ", " + snapshot.child(userID).child("allergies").getValue();
+                for (DataSnapshot ds : snapshot.child(userID).child("allergies").getChildren()) {
+                    if (!allergyString.equals("Allergier: ")) {
+                        allergyString += ", " + ds.getValue(String.class);
                     } else {
-                        allergyString += snapshot.child(userID).child("allergies").getValue();
+                        allergyString += ds.getValue(String.class);
                     }
                 }
                 profileAllergies.setText(allergyString);
