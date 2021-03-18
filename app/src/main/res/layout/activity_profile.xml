@@ -114,15 +114,15 @@
 
         </FrameLayout>
         <TextView
-                android:text="Ingen alleriger"
+                android:text="Ingen allergier"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/profileAllergies" android:textColor="#FFFFFF"
+                android:layout_height="53dp" android:id="@+id/profileAllergies" android:textColor="#FFFFFF"
                 android:textSize="18sp"/>
     </LinearLayout>
     <ImageButton
             android:layout_width="49dp"
             android:layout_height="50dp" app:srcCompat="@android:drawable/ic_menu_edit"
-            android:id="@+id/imageButton"
+            android:id="@+id/editButton"
             android:background="@drawable/rounded_corners"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="24dp" android:layout_marginEnd="24dp" android:layout_marginRight="24dp"
