@@ -86,7 +86,13 @@ public class ProfileActivity extends AppCompatActivity {
 
                 profileName.setText(nameString);
                 profileAddress.setText(addressString);
+                if (addressString.length() > 25) {
+                    profileAddress.setTextSize(14);
+                }
                 profileEmail.setText(user.getEmail());
+                if (user.getEmail().length() > 25) {
+                    profileEmail.setTextSize(14);
+                }
 
                 for (DataSnapshot ds : snapshot.child(userID).child("allergies").getChildren()) {
                     if (!allergyString.equals("Allergier: ")) {
@@ -96,6 +102,9 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 }
                 profileAllergies.setText(allergyString);
+                if (allergyString.length() > 60) {
+                    profileAllergies.setTextSize(14);
+                }
             }
 
             @Override
