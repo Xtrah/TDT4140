@@ -36,21 +36,24 @@ public class LoginActivity extends AppCompatActivity {
       public void onClick(View view) {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-        if (username == null || password == null) {
+        if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
           Toast.makeText(LoginActivity.this, "Authentication failed.",
                   Toast.LENGTH_SHORT).show();
         } else {
           signIn(username, password);
+          Intent myIntent = new Intent(view.getContext(), MainActivity.class);
+          startActivityForResult(myIntent, 0);
         }
-        FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
-        try {
-          if (currentUser != null) {
-            Intent myIntent = new Intent(view.getContext(), MainActivity.class);
-            startActivityForResult(myIntent, 0);
-          }
-        } catch (NullPointerException e) {
-          // TODO
-        }
+
+        //FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
+        //try {
+        //  if (currentUser != null) {
+        //    Intent myIntent = new Intent(view.getContext(), MainActivity.class);
+        //    startActivityForResult(myIntent, 0);
+        //  }
+        //} catch (NullPointerException e) {
+        //  // TODO
+        //}
 
       }
     });
