@@ -91,7 +91,7 @@ public class UserActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful() && firstName != null && lastName != null && address != null) {
                                     // Sign in success, update UI with the signed-in user's information
-                                    UserData data = new UserData(firstName, lastName, address, allergies);
+                                    UserData data = new UserData(firstName, lastName, address, allergies, false);
 
                                     FirebaseDatabase.getInstance().getReference("UserData")
                                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(data).
