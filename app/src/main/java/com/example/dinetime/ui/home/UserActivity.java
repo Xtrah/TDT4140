@@ -21,13 +21,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 public class UserActivity extends AppCompatActivity {
-
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
     private FirebaseDatabase firebaseDatabase;
 
-    private String firstName, lastName, address;
-    private ArrayList<String> allergies = new ArrayList<>();
+    private String firstName, lastName, address, email, password;
+    private ArrayList<String> allergies;
 
     private static final String TAG = "UserActivity";
     private static final int RC_SIGN_IN = 9001;
@@ -40,6 +39,7 @@ public class UserActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         myRef = firebaseDatabase.getReference("UserData");
+        allergies = new ArrayList<>();
 
         final EditText emailEditText = findViewById(R.id.userEmail);
         final EditText passwordEditText = findViewById(R.id.userPassword);
@@ -59,112 +59,112 @@ public class UserActivity extends AppCompatActivity {
         final Button create = findViewById(R.id.createProfileButton);
         final ImageButton back = findViewById(R.id.backButtonSignUp);
 
-        create.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                //createAccount(email, password);
-                //Intent myIntent = new Intent(view.getContext(), LoginActivity.class);
-                //startActivityForResult(myIntent, 0);
-
-                String email = emailEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-                firstName = firstNameEditText.getText().toString();
-                lastName = lastNameEditText.getText().toString();
-                address = addressEditText.getText().toString();
-
-                addAllergy(gluten);
-                addAllergy(nuts);
-                addAllergy(milk);
-                addAllergy(egg);
-                addAllergy(soya);
-                addAllergy(shellfish);
-                if (other.isChecked()) {
-                    allergies.add(otherAllergy.getText().toString());
-                }
-                if (allergies.isEmpty()) {
-                    allergies.add("Ingen");
-                }
-
-
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(UserActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful() && firstName != null && lastName != null && address != null) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    UserData data = new UserData(firstName, lastName, address, allergies, false);
-
-                                    FirebaseDatabase.getInstance().getReference("UserData")
-                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(data).
-                                            addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    Toast.makeText(UserActivity.this, "Successful Registered", Toast.LENGTH_SHORT).show();
-                                                    Intent intent = new Intent(UserActivity.this, MainActivity.class);
-                                                    startActivity(intent);
-
-                                                    Log.d(TAG, "createUserWithEmail:success");
-                                                    FirebaseUser user = mAuth.getCurrentUser();
-                                                    updateUI(user);
-                                                }
-                                            });
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(UserActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                    updateUI(null);
-                                }
-                            }
-                        });
-            }
-        });
-
         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), LoginActivity.class);
                 startActivityForResult(myIntent, 0);
             }
         });
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null) {
-            // TODO
-        }
-    }
+        create.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                email = emailEditText.getText().toString();
+                password = passwordEditText.getText().toString();
+                firstName = firstNameEditText.getText().toString();
+                lastName = lastNameEditText.getText().toString();
+                address = addressEditText.getText().toString();
 
-    private void addAllergy(CheckBox checkBox) {
-        if (checkBox.isChecked()) {
-            allergies.add(checkBox.getText().toString());
-        }
-    }
+                if (email == null || password == null || email.isEmpty() || password.isEmpty()
+                        || firstName == null || lastName == null || address == null ||
+                        firstName.isEmpty() || lastName.isEmpty() || address.isEmpty()) {
+                    Log.w(TAG, "createUserWithEmail:failure");
+                    Toast.makeText(UserActivity.this,
+                            "Fyll ut alle feltene.",
+                            Toast.LENGTH_SHORT).show();
+                }
 
-    private void createAccount(String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(UserActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-                    }
-                });
-    }
+                else if (!verifyUserData()) {
+                    Log.w(TAG, "createUserWithEmail:failure");
+                }
 
-    private void updateUI(FirebaseUser user) {
+                else {
+                    mAuth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(UserActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, save user to database
+
+                                        addAllergy(gluten);
+                                        addAllergy(nuts);
+                                        addAllergy(milk);
+                                        addAllergy(egg);
+                                        addAllergy(soya);
+                                        addAllergy(shellfish);
+                                        if (other.isChecked()) {
+                                            allergies.add(otherAllergy.getText().toString());
+                                        }
+                                        if (allergies.isEmpty()) {
+                                            allergies.add("Ingen");
+                                        }
+
+                                        UserData data = new UserData(firstName, lastName, address, allergies, false);
+
+                                        FirebaseDatabase.getInstance().getReference("UserData")
+                                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(data).
+                                                addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        Toast.makeText(UserActivity.this, "Vellykket registrering!",
+                                                                Toast.LENGTH_SHORT).show();
+                                                        Intent intent = new Intent(UserActivity.this, MainActivity.class);
+                                                        startActivity(intent);
+                                                        Log.d(TAG, "createUserWithEmail:success");
+                                                        FirebaseUser user = mAuth.getCurrentUser();
+                                                    }
+                                                });
+                                    } else {
+                                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                        Toast.makeText(UserActivity.this,
+                                                "E-post er ikke gyldig.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            });
+                }
+            }
+
+            private boolean verifyUserData() {
+                if (!firstName.matches("[a-zæøåA-ZÆØÅ\\s\\-]+") || !lastName.matches("[a-zæøåA-ZÆØÅ]+")) {
+                    Toast.makeText(UserActivity.this, "Navn kan bare inneholde bokstaver.",
+                            Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                if (password.length() < 6) {
+                    Toast.makeText(UserActivity.this, "Passordet må ha minst 6 tegn.",
+                            Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                if (!address.matches("^[a-zæøåA-ZÆØÅ\\s\\-]{2,}[0-9]+$")) {
+                    Toast.makeText(UserActivity.this, "Adressen er ikke gyldig.",
+                            Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                if (other.isChecked() && (!otherAllergy.getText().toString().matches("[a-zæøåA-ZÆØÅ\\s\\-]+"))) {
+                    Toast.makeText(UserActivity.this, "Oppgitt allergi er ikke gyldig.",
+                            Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                return true;
+            }
+
+            private void addAllergy(CheckBox checkBox) {
+                if (checkBox.isChecked()) {
+                    allergies.add(checkBox.getText().toString());
+                }
+            }
+    });
 
     }
 }
