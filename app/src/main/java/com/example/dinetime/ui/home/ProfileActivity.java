@@ -50,13 +50,11 @@ public class ProfileActivity extends AppCompatActivity {
             if (user != null) {
                 // User is signed in
                 updateUI();
-                System.out.println("Logged in");
             } else {
                 // No user is signed in
-                System.out.println("No user is signed in");
+                Log.w(TAG, "No user is signed in.");
             }
-        } catch (IllegalArgumentException e) {
-            System.out.println("NullPointerException");
+        } catch (NullPointerException e) {
         }
 
         edit.setOnClickListener(new View.OnClickListener() {

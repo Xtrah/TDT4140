@@ -8,17 +8,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import android.widget.TextView;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.dinetime.ui.home.AdminActivity;
 import com.example.dinetime.ui.home.EmptyActivity;
 import com.example.dinetime.ui.home.ProfileActivity;
-import com.example.dinetime.ui.home.UserActivity;
 import com.example.dinetime.ui.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
     Button addDinner = findViewById(R.id.addDinnerButton);
     ImageButton profileButton = findViewById(R.id.profileButton);
     TextView profileText = findViewById(R.id.profileText);
-    final Button adminButton = findViewById(R.id.adminButton);
-
-    adminButton.setVisibility(View.INVISIBLE);
 
     try {
       if (user != null) {
@@ -67,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
         profileText.setVisibility(View.VISIBLE);
         addDinner.setVisibility(View.VISIBLE);
         profileText.setText(user.getEmail());
-        System.out.println("Logged in");
       } else {
         // No user is signed in
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -76,10 +69,9 @@ public class MainActivity extends AppCompatActivity {
         profileButton.setVisibility(View.INVISIBLE);
         profileText.setVisibility(View.INVISIBLE);
         addDinner.setVisibility(View.INVISIBLE);
-        System.out.println("No user is signed in");
+        Log.w(TAG, "No user is signed in.");
       }
     } catch (NullPointerException e) {
-      System.out.println("yepp");
     }
 
     loginButton.setOnClickListener(new View.OnClickListener() {
@@ -106,33 +98,5 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-    adminButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View view) {
-        Intent myIntent = new Intent(view.getContext(), AdminActivity.class);
-        startActivityForResult(myIntent, 0);
-      }
-    });
-
-    myRef.addValueEventListener(new ValueEventListener() {
-      @Override
-      public void onDataChange(@NonNull DataSnapshot snapshot) {
-        // This method is called once with the initial value and again
-        // whenever data at this location is updated.
-        try {
-          boolean isAdmin = snapshot.child(userID).child("isAdmin").getValue(Boolean.class);
-          if (isAdmin) {
-            adminButton.setVisibility(View.VISIBLE);
-          }
-        } catch (Exception e) {
-        }
-      }
-
-      @Override
-      public void onCancelled(@NonNull DatabaseError error) {
-        // Failed to read value
-        Log.w(TAG, "Failed to read value.", error.toException());
-      }
-
-    });
   }
 }
