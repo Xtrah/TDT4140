@@ -1,4 +1,5 @@
 package com.example.dinetime.ui.home;
+
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
@@ -70,11 +71,6 @@ public class EmptyActivity extends AppCompatActivity implements AdapterView.OnIt
             guestsEd.setAdapter(adapter5);
             guestsEd.setOnItemSelectedListener(this);
 
-
-
-
-
-
         // initializing objects from form (no user input read)
             final EditText rettEd = findViewById(R.id.editTextDinner);
             final EditText stedEd = findViewById(R.id.editTextPlace);
@@ -89,10 +85,7 @@ public class EmptyActivity extends AppCompatActivity implements AdapterView.OnIt
                     Intent myIntent = new Intent(view.getContext(), MainActivity.class);
                     startActivityForResult(myIntent, 0);
                 }
-
             });
-
-
 
             final Button publish = findViewById(R.id.publishDinnerButton);
             publish.setOnClickListener(new View.OnClickListener() {
@@ -143,8 +136,6 @@ public class EmptyActivity extends AppCompatActivity implements AdapterView.OnIt
                     }
                 }
             });
-
-
     }
 
     @Override
