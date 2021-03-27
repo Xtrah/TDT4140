@@ -1,10 +1,19 @@
 package com.example.dinetime.ui.home;
+<<<<<<< HEAD
 
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.*;
+=======
+import android.content.Intent;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+>>>>>>> e45cbdccc03616f6755483400b50cf7f4ae8e9a6
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -15,6 +24,11 @@ import com.example.dinetime.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+<<<<<<< HEAD
+=======
+import android.widget.Switch;
+import android.widget.Toast;
+>>>>>>> e45cbdccc03616f6755483400b50cf7f4ae8e9a6
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
@@ -72,6 +86,7 @@ public class EmptyActivity extends AppCompatActivity implements AdapterView.OnIt
             guestsEd.setOnItemSelectedListener(this);
 
         // initializing objects from form (no user input read)
+<<<<<<< HEAD
             final EditText rettEd = findViewById(R.id.editTextDinner);
             final EditText stedEd = findViewById(R.id.editTextPlace);
             final Switch deleEd = findViewById(R.id.switchSplitExpenses);
@@ -82,6 +97,47 @@ public class EmptyActivity extends AppCompatActivity implements AdapterView.OnIt
             final ImageButton back = findViewById(R.id.backButton);
             back.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
+=======
+        final EditText rettEd = findViewById(R.id.editTextDinner);
+        final EditText datoEd = findViewById(R.id.editTextDate);
+        final EditText klokkeEd = findViewById(R.id.editTextTime);
+        final EditText stedEd = findViewById(R.id.editTextPlace);
+        final EditText gjesterEd = findViewById(R.id.editTextGuests);
+        final Switch deleEd = findViewById(R.id.switchSplitExpenses);
+        final Switch vegetarEd = findViewById(R.id.switchVegetarian);
+
+        Log.w(TAG, "Opening dinner form");
+
+        final ImageButton back = findViewById(R.id.backButton);
+        back.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), MainActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
+        final Button publish = findViewById(R.id.publishDinnerButton);
+        publish.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                // creating Strings of the user input:
+                String rett = rettEd.getText().toString().trim();
+                String dato = datoEd.getText().toString().trim();
+                String klokke = klokkeEd.getText().toString().trim();
+                String sted = stedEd.getText().toString().trim();
+                String gjester = gjesterEd.getText().toString().trim();
+
+                boolean notfilled = rett.equals("") || dato.equals("") || klokke.equals("") || sted.equals("") || gjester.equals("");
+                Log.w(TAG, "notfilled = " + notfilled);
+                if (notfilled){
+                    Log.w(TAG, "Form not filled. Nothing happens");
+                    // add toast to implement feedback
+                    Toast.makeText(getApplicationContext(), "Klarte ikke å lage arrangement. Skjema ikke utfylt", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.w(TAG, "Form Filled. Saving Dinner to Database");
+
+                    // creating intent to move to MainActivity
+>>>>>>> e45cbdccc03616f6755483400b50cf7f4ae8e9a6
                     Intent myIntent = new Intent(view.getContext(), MainActivity.class);
                     startActivityForResult(myIntent, 0);
                 }
