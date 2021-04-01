@@ -77,6 +77,7 @@ public class UserActivity extends AppCompatActivity {
                 if (email == null || password == null || email.isEmpty() || password.isEmpty()
                         || firstName == null || lastName == null || address == null ||
                         firstName.isEmpty() || lastName.isEmpty() || address.isEmpty()) {
+                    Log.w(TAG, "Text fields are not filled out");
                     Log.w(TAG, "createUserWithEmail:failure");
                     Toast.makeText(UserActivity.this,
                             "Fyll ut alle feltene.",
@@ -137,21 +138,25 @@ public class UserActivity extends AppCompatActivity {
 
             private boolean verifyUserData() {
                 if (!firstName.matches("[a-zæøåA-ZÆØÅ\\s\\-]+") || !lastName.matches("[a-zæøåA-ZÆØÅ]+")) {
+                    Log.w(TAG, "Invalid name");
                     Toast.makeText(UserActivity.this, "Navn kan bare inneholde bokstaver.",
                             Toast.LENGTH_SHORT).show();
                     return false;
                 }
                 if (password.length() < 6) {
+                    Log.w(TAG, "Invalid password");
                     Toast.makeText(UserActivity.this, "Passordet må ha minst 6 tegn.",
                             Toast.LENGTH_SHORT).show();
                     return false;
                 }
                 if (!address.matches("^[a-zæøåA-ZÆØÅ\\s\\-]{2,}[0-9]+$")) {
+                    Log.w(TAG, "Invalid address");
                     Toast.makeText(UserActivity.this, "Adressen er ikke gyldig.",
                             Toast.LENGTH_SHORT).show();
                     return false;
                 }
                 if (other.isChecked() && (!otherAllergy.getText().toString().matches("[a-zæøåA-ZÆØÅ\\s\\-]+"))) {
+                    Log.w(TAG, "Invalid allergy");
                     Toast.makeText(UserActivity.this, "Oppgitt allergi er ikke gyldig.",
                             Toast.LENGTH_SHORT).show();
                     return false;
