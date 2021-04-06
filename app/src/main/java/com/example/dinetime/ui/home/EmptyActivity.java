@@ -16,15 +16,23 @@ import com.example.dinetime.R;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.dinetime.ui.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class EmptyActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    // Initialize TAG
+    // Initialiserer verdier som trengs senere
     private static final String TAG = "EmptyActivity.java";
 
     @Override
@@ -32,14 +40,7 @@ public class EmptyActivity extends AppCompatActivity implements AdapterView.OnIt
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_empty);
             BottomNavigationView navView = findViewById(R.id.nav_view);
-            // Passing each menu ID as a set of Ids because each
-            // menu should be considered as top level destinations.
-            AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                    .build();
-            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-            NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-            NavigationUI.setupWithNavController(navView, navController);
+
             //Creates dropdown menu for months
             final Spinner monthEd = findViewById(R.id.months_spinner);
             final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.months, android.R.layout.simple_spinner_item);
@@ -95,22 +96,42 @@ public class EmptyActivity extends AppCompatActivity implements AdapterView.OnIt
                     // gjoer om maaned til tall
                     for (int i = 0; i < adapter.getCount(); i++){
                         if (month.equals(adapter.getItem(i))){
-                            month = String.valueOf(i);
+                            month = String.valueOf(i).trim();
                         }
                     }
                     // creating Strings of the user input:
-                    String rett = rettEd.getText().toString().trim();
-                    String dato = dagEd.getSelectedItem().toString().trim() + "." + month;
-                    String klokke = timeEd.getSelectedItem().toString().trim() + ":" + minuttEd.getSelectedItem().toString().trim();
-                    String sted = stedEd.getText().toString().trim();
-                    String gjester = guestsEd.getSelectedItem().toString().trim();
 
-                    boolean notfilled = rett.equals("") || sted.equals("") || dato.contains("Dag") || dato.contains("Måned") || klokke.contains("Minutt") || klokke.contains("Time");
-                    Log.d(TAG, "notfilled = " + notfilled);
+                    String dag = dagEd.getSelectedItem().toString().trim();
+                    Log.d(TAG, "Value of dag: " + dag);
+                    Log.d(TAG, "Value of month: " + month);
+
+                    final String rett = rettEd.getText().toString().trim();
+                    final String dato = dag + "." + month;
+                    final String klokke = timeEd.getSelectedItem().toString().trim() + ":" + minuttEd.getSelectedItem().toString().trim();
+                    final String sted = stedEd.getText().toString().trim();
+                    final String gjester = guestsEd.getSelectedItem().toString().trim();
+
+                    // array for validering av dato
+                    String[] badMonthArray = new String [] {
+                            "2", "4", "6", "9", "11"
+                    };
+                    List<String> badMonthList = Arrays.asList(badMonthArray);
+
+                    boolean notfilled = rett.equals("") || sted.equals("") || dato.contains("Dag") || dato.contains("Måned") || klokke.contains("Minutter") || klokke.contains("Timer") || gjester.contains("gjester");
+                    Log.i(TAG, "notfilled = " + notfilled);
                     if (notfilled){
                         Log.i(TAG, "Form not filled. Nothing happens");
                         // add toast to implement feedback
-                        Toast.makeText(getApplicationContext(), "Klarte ikke å lage arrangement. Skjema ikke utfylt", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Skjema ikke utfylt", Toast.LENGTH_SHORT).show();
+                    } else if (!rett.matches("[a-zæøåA-ZÆØÅ\\s\\-]+")){
+                        Log.i(TAG, "Form not filled. Ugyldig rett");
+                        Toast.makeText(EmptyActivity.this, "Ugyldig rett", Toast.LENGTH_SHORT).show();
+                    } else if (!sted.matches("^[a-zæøåA-ZÆØÅ\\s\\-]{2,}(\\s[0-9]+){0,1}$")){
+                        Log.i(TAG, "Form not filled. Ugyldig sted");
+                        Toast.makeText(EmptyActivity.this, "Ugyldig sted", Toast.LENGTH_SHORT).show();
+                    } else if ((badMonthList.contains(month) && dag.equals("31")) || (month.equals("2") && (dag.equals("29") || dag.equals("30")))){
+                        Log.i(TAG, "Form not filled. Ugyldig dato");
+                        Toast.makeText(EmptyActivity.this, "Ugyldig dato", Toast.LENGTH_SHORT).show();
                     } else {
                         Log.i(TAG, "Form Filled. Saving Dinner to Database");
 
@@ -118,21 +139,47 @@ public class EmptyActivity extends AppCompatActivity implements AdapterView.OnIt
                         Intent myIntent = new Intent(view.getContext(), MainActivity.class);
                         startActivityForResult(myIntent, 0);
 
-                        // Toast message to give feedback to user that the action was completed
-                        Toast.makeText(getApplicationContext(), "Publiserer...", Toast.LENGTH_SHORT).show();
 
-                        // get database object from the digital database
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        // create new dinner object in dinners path
-                        DatabaseReference myRef = database.getReference("dinners").child(UUID.randomUUID().toString());
-                        // save values to database
-                        myRef.child("typeRett").setValue(rett);
-                        myRef.child("dato").setValue(dato);
-                        myRef.child("klokkeslett").setValue(klokke);
-                        myRef.child("sted").setValue(sted);
-                        myRef.child("gjester").setValue(gjester);
-                        myRef.child("vegetar").setValue(vegetarEd.isChecked());
-                        myRef.child("deleUtgifter").setValue(deleEd.isChecked());
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        if (user == null) {
+                            Log.wtf(TAG, "User == null");
+                            Toast.makeText(EmptyActivity.this, "Nå har det skjedd en massiv feil", Toast.LENGTH_SHORT).show();
+                            myIntent = new Intent(view.getContext(), LoginActivity.class);
+                            startActivityForResult(myIntent, 0);
+                        } else {
+                            // Toast message to give feedback to user that the action was completed
+                            Toast.makeText(getApplicationContext(), "Publiserer...", Toast.LENGTH_SHORT).show();
+
+                            // get database object from the digital database
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            // create new dinner object in dinners path
+                            String dinnerID = UUID.randomUUID().toString();
+                            final DatabaseReference myRef = database.getReference("dinners").child(dinnerID);
+                            final String userID = user.getUid();
+                            int counter = 1;
+
+                            // Dette er ikke pent, men det er det eneste som har fungert hittil og det vil ikke være særlig merkbart for bruker så vi lar det gå
+                            while(counter <= 3){
+                                Log.w(TAG, "Laster opp. Forsøk nummer " + counter);
+                                myRef.child("typeRett").setValue(rett);
+                                Log.wtf(TAG, "rett: " + rett);
+                                myRef.child("dato").setValue(dato);
+                                Log.wtf(TAG, "dato: " + dato);
+                                myRef.child("klokkeslett").setValue(klokke);
+                                Log.wtf(TAG, "klokkeslett: " + klokke);
+                                myRef.child("sted").setValue(sted);
+                                Log.wtf(TAG, "sted: " + sted);
+                                myRef.child("gjester").setValue(gjester);
+                                Log.wtf(TAG, "gjester: " + gjester);
+                                myRef.child("vegetar").setValue(vegetarEd.isChecked());
+                                Log.wtf(TAG, "vegetarEd: " + String.valueOf(vegetarEd.isChecked()));
+                                myRef.child("deleUtgifter").setValue(deleEd.isChecked());
+                                Log.wtf(TAG, "deleEd: " + String.valueOf(deleEd.isChecked()));
+                                myRef.child("eier").setValue(userID);
+                                Log.w(TAG, "lagt til eier med userID: " + userID);
+                                counter++;
+                            }
+                        }
                     }
                 }
             });
