@@ -222,9 +222,11 @@ public class DinnerActivity extends AppCompatActivity {
         });
 
 
+        // Initializing delete button, it is invisible by default
         final Button deleteDinnerButton = findViewById(R.id.deleteDinnerButton);
         deleteDinnerButton.setVisibility(View.INVISIBLE);
 
+        // Method for deleting the current dinner
         deleteDinnerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 myRef.child("dinners").child(dinnerID).removeValue();
@@ -235,6 +237,7 @@ public class DinnerActivity extends AppCompatActivity {
             }
         });
 
+        // Delete button is visible if the user is an administrator
         DatabaseReference userRef = database.getReference("UserData");
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -255,6 +258,7 @@ public class DinnerActivity extends AppCompatActivity {
             }
         });
 
+        // Delete button is visible if the current user is the creator of the dinner
         DatabaseReference dinnerRef = database.getReference("dinners");
         dinnerRef.addValueEventListener(new ValueEventListener() {
             @Override
