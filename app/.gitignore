@@ -1,1 +1,14 @@
+*.iml
+.gradle
+/local.properties
+/.idea/
+.DS_Store
 /build
+/captures
+.externalNativeBuild
+.cxx
+/.navigation/
+!/.idea/compiler.xml
+!/.idea/gradle.xml
+!/.idea/jarRepositories.xml
+!/.idea/vcs.xml
