@@ -21,20 +21,24 @@
         app:menu="@menu/bottom_nav_menu" />
 
     <Button
-            android:id="@+id/loginButton"
-            android:layout_width="88dp"
-            android:layout_height="43dp"
-            android:text="Logg inn"
-            app:layout_constraintBottom_toBottomOf="@id/nav_view"
-            app:layout_constraintVertical_bias="0.0"
-            android:background="@drawable/rounded_corners" android:textColor="#FFFFFF"
-            app:layout_constraintStart_toStartOf="@+id/nav_host_fragment" android:layout_marginLeft="40dp"
-            android:layout_marginStart="40dp" app:layout_constraintTop_toTopOf="@+id/nav_host_fragment"/>
+        android:id="@+id/loginButton"
+        android:layout_width="88dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:background="@drawable/rounded_corners"
+        android:text="Logg inn"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@id/nav_view"
+        app:layout_constraintStart_toStartOf="@+id/nav_host_fragment"
+        app:layout_constraintTop_toTopOf="@+id/nav_host_fragment"
+        app:layout_constraintVertical_bias="0.0" />
 
     <FrameLayout
         android:id="@+id/frameLayout4"
         android:layout_width="413dp"
         android:layout_height="435dp"
+        android:layout_marginTop="50dp"
         android:background="#DDDDDDDD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,6 +51,7 @@
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
@@ -70,17 +75,19 @@
             app:navGraph="@navigation/mobile_navigation" android:background="#DDDDDDDD"/>
 
     <Button
-            android:id="@+id/addDinnerButton"
-            android:layout_width="162dp"
-            android:layout_height="48dp"
-            android:onClick="onClick"
-            android:text="Opprett middag"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.853"
-            android:background="@drawable/rounded_corners" android:textColor="#FFFFFF"
-            app:layout_constraintTop_toTopOf="@+id/nav_host_fragment"/>
+        android:id="@+id/addDinnerButton"
+        android:layout_width="162dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/rounded_corners"
+        android:onClick="onClick"
+        android:text="Opprett middag"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/nav_host_fragment"
+        app:layout_constraintVertical_bias="0.891" />
 
     <ImageButton
         android:id="@+id/profileButton"
@@ -98,42 +105,48 @@
 
     <TextView
         android:id="@+id/profileText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_width="131dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="right"
         android:text="Kari Nordmann"
         android:textSize="12sp"
         android:windowSoftInputMode="adjustResize"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout4"
         app:layout_constraintEnd_toStartOf="@+id/profileButton"
-        app:layout_constraintHorizontal_bias="0.914"
+        app:layout_constraintHorizontal_bias="0.864"
         app:layout_constraintStart_toEndOf="@+id/loginButton"
-        app:layout_constraintTop_toTopOf="@+id/nav_host_fragment" />
+        app:layout_constraintTop_toTopOf="@+id/nav_host_fragment"
+        app:layout_constraintVertical_bias="0.016" />
 
     <EditText
         android:id="@+id/searchField"
-        android:layout_width="259dp"
+        android:layout_width="235dp"
         android:layout_height="44dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginBottom="9dp"
         android:ems="10"
+        android:fitsSystemWindows="false"
         android:inputType="textPersonName"
         android:windowSoftInputMode="adjustResize"
-        android:fitsSystemWindows="false"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout4"
         app:layout_constraintEnd_toStartOf="@+id/searchButton"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+        app:layout_constraintTop_toBottomOf="@+id/loginButton"
+        app:layout_constraintVertical_bias="0.432" />
 
     <Button
         android:id="@+id/searchButton"
         android:layout_width="112dp"
         android:layout_height="38dp"
-        android:layout_marginTop="7dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="3dp"
         android:text="Søk"
         android:windowSoftInputMode="adjustResize"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileButton"
-        app:layout_constraintVertical_bias="0.869" />
+        app:layout_constraintVertical_bias="0.343" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
