@@ -127,15 +127,21 @@ public class MainActivity extends AppCompatActivity {
                 list.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                    ArrayList<String> dinnerList = new ArrayList<>();
-                    dinnerList.add(snapshot.getRef().getKey());
-                    dinnerList.add(snapshot.child("typeRett").getValue().toString());
-                    dinnerList.add(snapshot.child("dato").getValue().toString());
-                    dinnerList.add(snapshot.child("klokkeslett").getValue().toString());
-                    dinnerList.add(snapshot.child("sted").getValue().toString());
+                    try{
+                        ArrayList<String> dinnerList = new ArrayList<>();
+                        dinnerList.add(snapshot.getRef().getKey());
+                        dinnerList.add(snapshot.child("typeRett").getValue().toString());
+                        dinnerList.add(snapshot.child("dato").getValue().toString());
+                        dinnerList.add(snapshot.child("klokkeslett").getValue().toString());
+                        dinnerList.add(snapshot.child("sted").getValue().toString());
 
-                    list.add(dinnerList);
-                    Log.w(TAG, "Value is: " + snapshot.getValue().toString());
+                        list.add(dinnerList);
+                        Log.w(TAG, "Value is: " + snapshot.getValue().toString());
+                    }
+                    catch(NullPointerException e){
+                        Log.d(TAG, "NullPointerException on dataSnapshot dinnerList");
+                    }
+
                 }
 
 

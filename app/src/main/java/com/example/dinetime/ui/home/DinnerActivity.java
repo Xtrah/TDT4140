@@ -1,38 +1,33 @@
 package com.example.dinetime.ui.home;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import android.os.Bundle;
-
 import com.example.dinetime.MainActivity;
 import com.example.dinetime.R;
 import com.example.dinetime.ui.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class DinnerActivity extends AppCompatActivity {
 
     // Initialize TAG
     private static final String TAG = "DinnerActivity.java";
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +47,7 @@ public class DinnerActivity extends AppCompatActivity {
             Log.wtf(TAG, error);
             Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
 
-            // sender deg tilbake til LoginActivity.class
+            // sender deg tilbake til LoginActivity.java
             Intent myIntent = new Intent(this, LoginActivity.class);
             startActivityForResult(myIntent, 0);
         }
@@ -83,7 +78,7 @@ public class DinnerActivity extends AppCompatActivity {
         Intent intent = getIntent();
         final String dinnerID = intent.getStringExtra("dinnerID");
         Log.w(TAG, "Hentet dinnerID: " + dinnerID);
-        //starter database med riktig middagsreferanse:
+        // starter database med riktig middagsreferanse:
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference();
 
@@ -97,11 +92,11 @@ public class DinnerActivity extends AppCompatActivity {
                     // whenever data at this location is updated.
                     Log.w(TAG, "henter informasjon om middagen fra databasen");
 
-                    //lager to snapshots, en for bruker og en for middag
+                    // lager to snapshots, en for bruker og en for middag
                     final DataSnapshot dsDinner = dataSnapshot.child("dinners").child(dinnerID);
                     DataSnapshot dsEier = dataSnapshot.child("UserData").child(dsDinner.child("eier").getValue(String.class));
 
-                    //henter inn tekst for brødtekst:
+                    // henter inn tekst for brødtekst:
                     String typeRett = dsDinner.child("typeRett").getValue(String.class);
                     String dato= dsDinner.child("dato").getValue(String.class);
                     String tidspunkt= dsDinner.child("klokkeslett").getValue(String.class);
@@ -179,10 +174,10 @@ public class DinnerActivity extends AppCompatActivity {
                         // legger inn klikkefunksjonalitet
                         registration.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View view) {
-                                // ###############################################
-                                // her kan man legge inn noe for endring av middag
-                                // ###############################################
-                                Toast.makeText(DinnerActivity.this, "Det er din middag, antar du kommer", Toast.LENGTH_SHORT).show();
+                                Intent myIntent = new Intent(view.getContext(), EmptyActivity.class);
+                                myIntent.putExtra("dinnerID", dinnerID);
+                                Log.d(TAG, "Moving to EmptyActivity.class, remembering dinnerID " + dinnerID);
+                                startActivityForResult(myIntent, 1);
                             }
                         });
                     } else if (paameldte >= maksGjest) {
@@ -264,7 +259,7 @@ public class DinnerActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
-                    //if (userID.equals(snapshot.getValue(String.class))) {
+                    // if (userID.equals(snapshot.getValue(String.class))) {
                     String dinnerUserID = snapshot.child(dinnerID).child("eier").getValue(String.class);
                     if (userID.equals(dinnerUserID)) {
                         deleteDinnerButton.setVisibility(View.VISIBLE);
