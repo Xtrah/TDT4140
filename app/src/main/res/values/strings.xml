@@ -12,7 +12,7 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <string-array name = "months">
+    <string-array name="months">
         <item>Måned</item>
         <item>Januar</item>
         <item>Februar</item>
@@ -28,7 +28,7 @@
         <item>Desember</item>
     </string-array>
 
-    <string-array name = "days">
+    <string-array name="days">
         <item>Dag</item>
         <item>1</item>
         <item>2</item>
@@ -63,7 +63,7 @@
         <item>31</item>
     </string-array>
 
-    <string-array name = "minutes">
+    <string-array name="minutes">
         <item>Minutter</item>
         <item>00</item>
         <item>05</item>
@@ -81,7 +81,7 @@
 
     </string-array>
 
-    <string-array name = "hours">
+    <string-array name="hours">
         <item>Timer</item>
         <item>00</item>
         <item>01</item>
@@ -111,7 +111,7 @@
 
     </string-array>
 
-    <string-array name = "guests">
+    <string-array name="guests">
         <item>Antall gjester</item>
         <item>01</item>
         <item>02</item>
@@ -125,7 +125,15 @@
         <item>10</item>
 
     </string-array>
+    <string name="title_activity_payback">PaybackActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
 
 </resources>

@@ -4,44 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.DinnerActivity">
+    tools:context=".ui.notifications.PaybackActivity">
 
     <ImageButton
         android:layout_width="51dp"
-        android:layout_height="51dp" app:srcCompat="@drawable/abc_vector_test"
-        android:id="@+id/backButton" android:background="@drawable/rounded_corners"
-        app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="24dp" android:layout_marginTop="24dp" android:layout_marginStart="24dp"/>
+        android:layout_height="51dp"
+        app:srcCompat="@drawable/abc_vector_test"
+        android:id="@+id/backButton"
+        android:background="@drawable/rounded_corners"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"/>
 
     <Button
-        android:id="@+id/registerForDinnerButton"
+        android:id="@+id/paidBack"
         android:layout_width="200dp"
         android:layout_height="49dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/rounded_corners"
-        android:padding="15dp"
-        android:text="Meld deg på"
+        android:text="Jeg har betalt tilbake"
         android:textColor="#FFFFFF"
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deleUtgifter"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/splitExpenses"
-        android:layout_width="100dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/rounded_corners"
-        android:text="Del Utgifter"
-        android:textColor="#FFFFFF"
-        android:textSize="12dp"
-        android:textStyle="normal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerForDinnerButton"
+        app:layout_constraintTop_toBottomOf="@+id/skylder"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -50,7 +39,7 @@
         android:layout_height="59dp"
         android:layout_marginTop="89dp"
         android:gravity="center"
-        android:text="s middag"
+        android:text="Du skylder "
         android:textSize="40dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,17 +70,6 @@
         app:layout_constraintTop_toBottomOf="@+id/typeRett" />
 
     <TextView
-        android:id="@+id/tidspunkt"
-        android:layout_width="345dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:text="Tidspunkt: "
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dato" />
-
-    <TextView
         android:id="@+id/sted"
         android:layout_width="345dp"
         android:layout_height="40dp"
@@ -100,55 +78,28 @@
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tidspunkt" />
+        app:layout_constraintTop_toBottomOf="@+id/dato" />
 
     <TextView
-        android:id="@+id/gjester"
+        android:id="@+id/delesPaa"
         android:layout_width="345dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
-        android:text="Påmeldte gjester: "
+        android:text="Påmeldte gjester ved deling: "
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sted" />
 
     <TextView
-        android:id="@+id/vegetar"
+        android:id="@+id/skylder"
         android:layout_width="345dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
-        android:text="Vegetar: "
+        android:text="Betal til: "
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gjester" />
-
-    <TextView
-        android:id="@+id/deleUtgifter"
-        android:layout_width="345dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:text="Dele utgifter: "
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vegetar" />
-
-    <Button
-        android:id="@+id/deleteDinnerButton"
-        android:layout_width="119dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="184dp"
-        android:layout_marginLeft="184dp"
-        android:background="@drawable/rounded_corners"
-        android:text="Slett middag"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/backButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.685" />
+        app:layout_constraintTop_toBottomOf="@+id/delesPaa" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

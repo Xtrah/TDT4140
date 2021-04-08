@@ -1,5 +1,6 @@
 package com.example.dinetime.ui.home;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.dinetime.MainActivity;
 import com.example.dinetime.R;
+import android.text.Html;
 import com.example.dinetime.ui.ui.login.LoginActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,12 +33,11 @@ public class DinnerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //debug message
-        Log.w(TAG, "DinnerActivity.java has been opened");
+        // intro message
+        Log.i(TAG, "DinnerActivity.java has been opened");
 
         //create layout
         setContentView(R.layout.activity_dinner);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
 
         // henter instans av innlogget bruker
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -63,7 +63,7 @@ public class DinnerActivity extends AppCompatActivity {
             }
         });
 
-        // lager påmeldingsknapp
+        // lager påmeldingsknapp og brødtekst
         final Button registration = (Button) findViewById(R.id.registerForDinnerButton);
         final TextView titletxt = (TextView) findViewById(R.id.title);
         final TextView typeRetttxt = (TextView) findViewById(R.id.typeRett);
@@ -73,6 +73,9 @@ public class DinnerActivity extends AppCompatActivity {
         final TextView gjestertxt = (TextView) findViewById(R.id.gjester);
         final TextView vegetartxt = (TextView) findViewById(R.id.vegetar);
         final TextView deleUtgiftertxt = (TextView) findViewById(R.id.deleUtgifter);
+        // lager splitExpenses knapp og skjuler den
+        final Button splitExpenses = (Button) findViewById(R.id.splitExpenses);
+        splitExpenses.setVisibility(View.INVISIBLE);
 
         // getting dinnerID from last activity
         Intent intent = getIntent();
@@ -84,6 +87,7 @@ public class DinnerActivity extends AppCompatActivity {
 
         // myRef er referanse til denne spesifikke middagen
         myRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -115,7 +119,6 @@ public class DinnerActivity extends AppCompatActivity {
                         deleUtgifterYN = "Ja";
                     }
 
-
                     // henter maks antall gjester som int
                     int maksGjest = Integer.parseInt(dsDinner.child("gjester").getValue(String.class));
                     Log.d(TAG, "Maks gjester: " + maksGjest);
@@ -134,23 +137,76 @@ public class DinnerActivity extends AppCompatActivity {
                         }
                     }
 
-
                     gjesterRatio = String.valueOf(paameldte) + "/" + String.valueOf(maksGjest);
 
                     Log.w(TAG, "oppdaterer brødtekst");
                     // oppdaterer textview brødtekst med innsamlet data:
+
                     titletxt.setText(dsEier.child("firstName").getValue(String.class) + " sin middag");
-                    typeRetttxt.setText("Type Rett: " + typeRett);
-                    datotxt.setText("Dato: " + dato);
-                    tidspunkttxt.setText("Tidspunkt: " + tidspunkt);
-                    stedtxt.setText("Sted: " + sted);
-                    gjestertxt.setText("Påmeldte Gjester: " + gjesterRatio);
-                    vegetartxt.setText("Vegetar: " + vegetarYN);
-                    deleUtgiftertxt.setText("Dele På Utgifter: " + deleUtgifterYN);
+                    typeRetttxt.setText(Html.fromHtml("<b>Type Rett:</b> " + typeRett));
+                    datotxt.setText(Html.fromHtml("<b>Dato:</b> " + dato));
+                    tidspunkttxt.setText(Html.fromHtml("<b>Tidspunkt:</b> " + tidspunkt));
+                    stedtxt.setText(Html.fromHtml("<b>Sted:</b> " + sted));
+                    gjestertxt.setText(Html.fromHtml("<b>Påmeldte Gjester:</b> " + gjesterRatio));
+                    vegetartxt.setText(Html.fromHtml("<b>Vegetar:</b> " + vegetarYN));
+                    deleUtgiftertxt.setText(Html.fromHtml("<b>Dele På Utgifter:</b> " + deleUtgifterYN));
 
 
                     // oppdaterer onclick metoden til knappen:
-                    if (paameldt) {
+                    if (eier.equals(userID)) {
+                        //dersom det er eieren av middagen som ser på så kan eieren endre middagen
+                        registration.setText("Endre middag");
+                        // legger inn klikkefunksjonalitet
+                        registration.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View view) {
+                                Intent myIntent = new Intent(view.getContext(), EmptyActivity.class);
+                                myIntent.putExtra("dinnerID", dinnerID);
+                                Log.d(TAG, "Moving to EmptyActivity.class, remembering dinnerID " + dinnerID);
+                                startActivityForResult(myIntent, 1);
+                            }
+                        });
+                        // hvis den skulle splittes kan eieren dele på utgiftene
+                        if (deleUtgifterYN.equals("Ja")){
+                            splitExpenses.setVisibility(View.VISIBLE);
+                            if (dsDinner.child("delt").exists()) {
+                                String tilbakebetaltRatio = dsDinner.child("delt").child("betaltTilbake").getValue(String.class) + "/"
+                                        + dsDinner.child("delt").child("delesPaa").getValue(String.class);
+                                splitExpenses.setText(tilbakebetaltRatio + " har betalt deg tilbake");
+                                splitExpenses.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        // sjekker om utgiftene allerede har blitt delt, hvis ikke gjennomføres neste bit
+                                        Toast.makeText(DinnerActivity.this, "Utgifter har allerede blitt delt", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                Log.d(TAG, "Utgifter har allerede blitt delt");
+                            } else {
+                                splitExpenses.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        // sjekker om utgiftene allerede har blitt delt, hvis ikke gjennomføres neste bit
+                                        if (!dsDinner.child("paameldte").exists()) {
+                                            Toast.makeText(DinnerActivity.this, "Ingen å dele utgiftene med", Toast.LENGTH_SHORT).show();
+                                            Log.d(TAG, "Ingen påmeldte -- Utgifter ikke delt");
+                                        } else {
+                                            Intent myIntent = new Intent(view.getContext(), DeleUtgifter.class);
+                                            Log.d(TAG, "Moving to DeleUtgifter.class");
+                                            myIntent.putExtra("dinnerID", dinnerID);
+                                            startActivityForResult(myIntent, 0);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    } else if (dsDinner.child("delt").exists()) {
+                        // dersom denne stien eksisterer har utgiftene for arrangementet blitt delt og man kan ikke lenger melde seg på
+                        registration.setText("Påmelding avsluttet");
+                        registration.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View view) {
+                                Toast.makeText(DinnerActivity.this, "Påmeldingsperioden er dessverre over", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else if (paameldt) {
                         registration.setText("Meld deg av");
                         // legge inn avmeldings funksjonalitet?
                         registration.setOnClickListener(new View.OnClickListener() {
@@ -167,17 +223,6 @@ public class DinnerActivity extends AppCompatActivity {
                                 registration.setText("Meld deg på");
                                 Toast.makeText(DinnerActivity.this, "Du er nå avmeldt middagen", Toast.LENGTH_SHORT).show();
                                 // Endring i database vil medføre en ny gjennomgang av denne metoden.
-                            }
-                        });
-                    } else if (eier.equals(userID)) {
-                        registration.setText("Endre middag");
-                        // legger inn klikkefunksjonalitet
-                        registration.setOnClickListener(new View.OnClickListener() {
-                            public void onClick(View view) {
-                                Intent myIntent = new Intent(view.getContext(), EmptyActivity.class);
-                                myIntent.putExtra("dinnerID", dinnerID);
-                                Log.d(TAG, "Moving to EmptyActivity.class, remembering dinnerID " + dinnerID);
-                                startActivityForResult(myIntent, 1);
                             }
                         });
                     } else if (paameldte >= maksGjest) {

@@ -1,71 +1,72 @@
 package com.example.dinetime;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.*;
-import androidx.annotation.RequiresApi;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import com.example.dinetime.ui.home.DinnerActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.dinetime.ui.dashboard.DashboardFragment;
 import com.example.dinetime.ui.home.EmptyActivity;
+import com.example.dinetime.ui.home.HomeFragment;
 import com.example.dinetime.ui.home.ProfileActivity;
+import com.example.dinetime.ui.notifications.NotificationsFragment;
 import com.example.dinetime.ui.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements  BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private String userID;
-    private DatabaseReference myRef;
-    private FirebaseDatabase firebaseDatabase;
+    //initialiserer variabler
     private static final String TAG = "MainActivity";
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private BottomNavigationView navView;
+    FragmentManager fm;
+    private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        // denne setter opp de funksjonene som alltid er tilstede på MainActivity skjermen samt muligheten til å kunne hoppe mellom de forskjellige skjermene
 
+        navView = findViewById(R.id.nav_view);
+        fm = getSupportFragmentManager();
+        if (savedInstanceState == null) {
+            // hvis det ikke er noen tidligere saved instance skal man starte på "hjem"
+            Log.d(TAG, "savedInstanceState = null");
+            FragmentTransaction t = fm.beginTransaction();
+            fragment = new HomeFragment();
+            t.replace(R.id.nav_host_fragment, fragment);
+            t.commit();
+        } else {
+            // Hvis det var et saved instance henter den det fra tidligere
+            Log.d(TAG, "savedInstanceState != null");
+            fragment = (Fragment) fm.findFragmentById(R.id.nav_host_fragment);
+        }
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
+        // Setter en listener som hører etter når det blir byttet mellom hver side
+        navView.setOnNavigationItemSelectedListener(this);
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = firebaseDatabase.getReference("UserData");
-
+        // setter opp basic knapper
         Button loginButton = findViewById(R.id.loginButton);
         Button addDinner = findViewById(R.id.addDinnerButton);
         ImageButton profileButton = findViewById(R.id.profileButton);
         TextView profileText = findViewById(R.id.profileText);
 
+        // sjekker om noen er logget inn
         try {
             if (user != null) {
                 // User is signed in
-                userID = user.getUid();
                 loginButton.setText("Logg ut");
                 profileButton.setVisibility(View.VISIBLE);
                 profileText.setVisibility(View.VISIBLE);
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
         }
 
+        //setter opp onClickListener til knappene
         loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (user != null) {
@@ -107,245 +109,45 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(myIntent, 0);
             }
         });
+    } // end of onCreate
 
-        // Create a LinearLayout element to add buttons to
-        final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Denne metoden hører etter om en av knappene i bottBar blir trykket på og handler etter det
+        Log.d(TAG, "onNavigationItemSelected is called");
+        Log.d(TAG, "item = " + item.toString());
 
-        // create context variable
-        final MainActivity context = this;
+        fm = getSupportFragmentManager();
 
-        // list with all dinners in
-        final ArrayList<ArrayList<String>> list = new ArrayList<>();
-
-        // reading from database
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("dinners");
-        reference.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                list.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                    try{
-                        ArrayList<String> dinnerList = new ArrayList<>();
-                        dinnerList.add(snapshot.getRef().getKey());
-                        dinnerList.add(snapshot.child("typeRett").getValue().toString());
-                        dinnerList.add(snapshot.child("dato").getValue().toString());
-                        dinnerList.add(snapshot.child("klokkeslett").getValue().toString());
-                        dinnerList.add(snapshot.child("sted").getValue().toString());
-
-                        list.add(dinnerList);
-                        Log.w(TAG, "Value is: " + snapshot.getValue().toString());
-                    }
-                    catch(NullPointerException e){
-                        Log.d(TAG, "NullPointerException on dataSnapshot dinnerList");
-                    }
-
-                }
-
-
-                // checks if dinner-event date is in the past, and removes if so
-                ArrayList<ArrayList<String>> newList = new ArrayList<>();
-                for (int l = 0; l < list.size(); l++) {
-
-                    String[] dateList = new String[2];
-                    dateList[0] = list.get(l).get(2).split("\\.")[0];
-                    dateList[1] = list.get(l).get(2).split("\\.")[1];
-
-                    String[] timeList = new String[2];
-                    timeList[0] = list.get(l).get(3).split(":")[0];
-                    timeList[1] = list.get(l).get(3).split(":")[1];
-
-
-                    Calendar date = Calendar.getInstance();
-                    date.set(Calendar.YEAR, 2021);
-                    date.set(Calendar.MONTH, Integer.parseInt(dateList[1]));
-                    date.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateList[0]));
-                    date.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeList[0]));
-                    date.set(Calendar.MINUTE, Integer.parseInt(timeList[1]));
-
-                    if (date.before(Calendar.getInstance())) {
-                        Log.w(TAG, "Removed from list: " + list.get(l));
-                    } else {
-                        newList.add(list.get(l));
-                        Log.w(TAG, "Value stays: " + list.get(l));
-                        continue;
-                    }
-                }
-
-                // to get all dinner events in the future sorted by date by default
-                Collections.sort(newList, new Comparator<ArrayList<String>>() {
-                    @Override
-                    public int compare(ArrayList<String> l1, ArrayList<String> l2) {
-
-                        String[] dateList1 = new String[2];
-                        String[] dateList2 = new String[2];
-                        dateList1[0] = l1.get(2).split("\\.")[0];
-                        dateList1[1] = l1.get(2).split("\\.")[1];
-                        dateList2[0] = l2.get(2).split("\\.")[0];
-                        dateList2[1] = l2.get(2).split("\\.")[1];
-                        String[] timeList1 = new String[2];
-                        String[] timeList2 = new String[2];
-                        timeList1[0] = l1.get(3).split(":")[0];
-                        timeList1[1] = l1.get(3).split(":")[1];
-                        timeList2[0] = l2.get(3).split(":")[0];
-                        timeList2[1] = l2.get(3).split(":")[1];
-
-
-                        Calendar date1 = Calendar.getInstance();
-                        date1.set(Calendar.YEAR, 2021);
-                        date1.set(Calendar.MONTH, Integer.parseInt(dateList1[1]));
-                        date1.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateList1[0]));
-                        date1.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeList1[0]));
-                        date1.set(Calendar.MINUTE, Integer.parseInt(timeList1[1]));
-                        Calendar date2 = Calendar.getInstance();
-                        date2.set(Calendar.YEAR, 2021);
-                        date2.set(Calendar.MONTH, Integer.parseInt(dateList2[1]));
-                        date2.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateList2[0]));
-                        date2.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeList2[0]));
-                        date2.set(Calendar.MINUTE, Integer.parseInt(timeList2[1]));
-                        return date1.compareTo(date2);
-                    }
-                });
-
-                // to get all dinner events searched for sorted by date
-                Collections.sort(list, new Comparator<ArrayList<String>>() {
-                    @Override
-                    public int compare(ArrayList<String> l1, ArrayList<String> l2) {
-
-                        String[] dateList1 = new String[2];
-                        String[] dateList2 = new String[2];
-                        dateList1[0] = l1.get(2).split("\\.")[0];
-                        dateList1[1] = l1.get(2).split("\\.")[1];
-                        dateList2[0] = l2.get(2).split("\\.")[0];
-                        dateList2[1] = l2.get(2).split("\\.")[1];
-                        String[] timeList1 = new String[2];
-                        String[] timeList2 = new String[2];
-                        timeList1[0] = l1.get(3).split(":")[0];
-                        timeList1[1] = l1.get(3).split(":")[1];
-                        timeList2[0] = l2.get(3).split(":")[0];
-                        timeList2[1] = l2.get(3).split(":")[1];
-
-
-                        Calendar date1 = Calendar.getInstance();
-                        date1.set(Calendar.YEAR, 2021);
-                        date1.set(Calendar.MONTH, Integer.parseInt(dateList1[1]));
-                        date1.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateList1[0]));
-                        date1.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeList1[0]));
-                        date1.set(Calendar.MINUTE, Integer.parseInt(timeList1[1]));
-                        Calendar date2 = Calendar.getInstance();
-                        date2.set(Calendar.YEAR, 2021);
-                        date2.set(Calendar.MONTH, Integer.parseInt(dateList2[1]));
-                        date2.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateList2[0]));
-                        date2.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeList2[0]));
-                        date2.set(Calendar.MINUTE, Integer.parseInt(timeList2[1]));
-                        return date1.compareTo(date2);
-                    }
-                });
-
-
-                // Add Buttons
-                for (ArrayList<String> l : newList) {
-                    Button myButton = new Button(context);
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(20, 20, 20, 20);
-                    myButton.setLayoutParams(lp);
-                    myButton.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-                    String txt = "";
-                    txt += "<b>" + l.get(1) + "</b>";
-                    txt += " --- Dato: ";
-                    txt += l.get(2) + " ";
-                    txt += "Klokkeslett: ";
-                    txt += l.get(3) + " ";
-                    myButton.setText(Html.fromHtml(txt));
-
-                    final String id = l.get(0);
-
-                    // giving buttons functionality
-                    myButton.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View view) {
-                            Intent myIntent = new Intent(view.getContext(), DinnerActivity.class);
-                            Log.d(TAG, "Moving to DinnerActivity.class");
-                            myIntent.putExtra("dinnerID", id);
-                            startActivityForResult(myIntent, 1);
-                        }
-                    });
-
-                    // for debugging: checks if button is null
-                    if (myButton == null) {
-                        System.out.println("Button is NULL");
-                    }
-                    linearLayout.addView(myButton, lp);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-
-        // giving main-page search functionality
-        final EditText searchField = findViewById(R.id.searchField);
-        Button searchButton = findViewById(R.id.searchButton);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                linearLayout.removeAllViews();
-                String searchword = searchField.getText().toString().toLowerCase();
-
-                // returns all dinner events in database if nothing is searched for
-                if (searchword.equals(null)) {
-                    return;
-                }
-
-                // removes all events that is not searched for
-                ArrayList<ArrayList<String>> newList = new ArrayList<>();
-                for (ArrayList<String> dlist : list) {
-                    System.out.println(dlist);
-                    if (dlist.get(1).toLowerCase().contains(searchword) ||
-                            dlist.get(4).toLowerCase().contains(searchword)) {
-                        newList.add(dlist);
-                    }
-                }
-                System.out.println(newList);
-
-                // Add Buttons
-                for (ArrayList<String> l : newList) {
-                    Button myButton = new Button(context);
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    lp.setMargins(20, 20, 20, 20);
-                    myButton.setLayoutParams(lp);
-                    myButton.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-
-                    String txt = "";
-                    txt += "<b>" + l.get(1) + "</b>";
-                    txt += " --- Dato: ";
-                    txt += l.get(2) + " ";
-                    txt += "Klokkeslett: ";
-                    txt += l.get(3) + " ";
-                    myButton.setText(Html.fromHtml(txt));
-
-                    final String id = l.get(0);
-
-                    myButton.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View view) {
-                            Intent myIntent = new Intent(view.getContext(), DinnerActivity.class);
-                            Log.d(TAG, "Moving to DinnerActivity.class");
-                            myIntent.putExtra("dinnerID", id);
-                            startActivityForResult(myIntent, 1);
-                        }
-                    });
-
-                    // for debugging: checks if button is null
-                    if (myButton == null) {
-                        System.out.println("Button is NULL");
-                    }
-                    linearLayout.addView(myButton, lp);
-                }
-            }
-        });
-
+        switch (item.getItemId()){
+            // Switch som hører etter når de forskjellige sidene blir startet opp og hopper mellom dem
+            case R.id.navigation_home:
+                // hjemme siden over alle middager
+                FragmentTransaction hjem = fm.beginTransaction();
+                fragment = new HomeFragment();
+                hjem.replace(R.id.nav_host_fragment, fragment);
+                hjem.commit();
+                Log.w(TAG, "Bytter til hjem fragment");
+                return true;
+            case R.id.navigation_dashboard:
+                //side for mine middager
+                FragmentTransaction mineMiddager = fm.beginTransaction();
+                fragment = new DashboardFragment();
+                mineMiddager.replace(R.id.nav_host_fragment, fragment);
+                mineMiddager.commit();
+                Log.w(TAG, "Bytter til mine middager fragment");
+                return true;
+            case R.id.navigation_notifications:
+                // side for varsler
+                FragmentTransaction varsler = fm.beginTransaction();
+                fragment = new NotificationsFragment();
+                varsler.replace(R.id.nav_host_fragment, fragment);
+                varsler.commit();
+                Log.w(TAG, "Bytter til varsler fragment");
+                return true;
+        }
+        // dette skal egentlig ikke skje, den skal fanges opp av det over
+        Log.wtf(TAG, "onNavigationItemSelected returning false -- THIS IS NOT SUPPOSED TO HAPPEN!!!");
+        return false;
     }
 }

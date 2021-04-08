@@ -9,9 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.home.DinnerActivity"/>
-        <activity android:name=".ui.home.ProfileActivity"/>
+        <activity android:name=".ui.home.DinnerActivity" />
+        <activity android:name=".ui.home.ProfileActivity" />
         <activity android:name=".ui.home.UserActivity" />
+        <activity android:name=".ui.home.DeleUtgifter" />
+        <activity android:name=".ui.notifications.PaybackActivity" />
         <activity
             android:name=".ui.ui.login.LoginActivity"
             android:label="@string/title_activity_login" />
