@@ -74,19 +74,20 @@
 
     <TextView
         android:id="@+id/profileText"
-        android:layout_width="131dp"
-        android:layout_height="16dp"
+        android:layout_width="174dp"
+        android:layout_height="18dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="12dp"
         android:gravity="right"
         android:text="Kari Nordmann"
         android:textSize="12sp"
         android:windowSoftInputMode="adjustResize"
         app:layout_constraintBottom_toTopOf="@+id/nav_host_fragment"
         app:layout_constraintEnd_toStartOf="@+id/profileButton"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/loginButton" />
-
+        app:layout_constraintHorizontal_bias="0.741"
+        app:layout_constraintStart_toEndOf="@+id/loginButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.966" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

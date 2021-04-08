@@ -16,7 +16,7 @@
         <activity android:name=".ui.notifications.PaybackActivity" />
         <activity
             android:name=".ui.ui.login.LoginActivity"
-            android:label="@string/title_activity_login" />
+            android:label="DineTime" />
         <activity android:name=".ui.home.EmptyActivity" />
         <activity
             android:name=".MainActivity"

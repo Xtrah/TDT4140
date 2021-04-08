@@ -46,6 +46,8 @@ public class ProfileActivity extends AppCompatActivity {
         profileAddress = findViewById(R.id.profileAddress);
         profileAllergies = findViewById(R.id.profileAllergies);
 
+        edit.setVisibility(View.INVISIBLE);
+
         try {
             if (user != null) {
                 // User is signed in
